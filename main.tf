@@ -2,7 +2,7 @@ variable "fun_location" {
   default = "eu"
 }
 
-variable "project_id" {
+variable "fun_project_id" {
   description = "The ID of the Google Cloud project."
   type        = string
 }
@@ -89,7 +89,7 @@ module "bucket" {
   bucket_name          = "${random_id.bucket_prefix.hex}-gcf-source"
   location             = var.fun_location
   bucket_prefix_length = var.bucket_prefix_length
-  project_id           = var.project_id
+  project_id           = var.fun_project_id
   source_code          = module.archive.source
   output_location      = module.archive.output_path
 }
@@ -97,14 +97,14 @@ module "bucket" {
 resource "google_service_account" "default" {
   account_id   = var.service_account.account_id
   display_name = var.service_account.display_name
-  project      = var.project_id
+  project      = var.fun_project_id
 }
 
 resource "google_cloudfunctions2_function" "default" {
   name        = var.function_name
   location    = var.region
   description = var.description
-  project     = var.project_id
+  project     = var.fun_project_id
 
   build_config {
     runtime               = var.run_time
