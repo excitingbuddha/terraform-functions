@@ -12,12 +12,12 @@ resource "random_id" "bucket_prefix" {
 }
 
 module "archive" {
-  source     = "git::https://github.com/excitingbuddha/terraform.git//modules/archive"
+  source     = "git::https://github.com/excitingbuddha/terraform-archive"
   source_dir = var.source_dir
 }
 
 module "bucket" {
-  source               = "git::https://github.com/excitingbuddha/terraform.git//modules/bucket"
+  source               = "git::https://github.com/excitingbuddha/terraform-bucket"
   bucket_name          = "${random_id.bucket_prefix.hex}-gcf-source"
   location             = var.location
   bucket_prefix_length = var.bucket_prefix_length
