@@ -1,4 +1,4 @@
-variable "location" {
+variable "fun_location" {
   default = "eu"
 }
 
@@ -87,7 +87,7 @@ module "archive" {
 module "bucket" {
   source               = "git::https://github.com/excitingbuddha/terraform-bucket"
   bucket_name          = "${random_id.bucket_prefix.hex}-gcf-source"
-  location             = var.location
+  location             = var.fun_location
   bucket_prefix_length = var.bucket_prefix_length
   project_id           = var.project_id
   source_code          = module.archive.source
