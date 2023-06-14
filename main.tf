@@ -1,3 +1,7 @@
+variable "location" {
+  default = "eu"
+}
+
 terraform {
   required_providers {
     google = {

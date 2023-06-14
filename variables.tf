@@ -7,10 +7,6 @@ variable "bucket_prefix_length" {
   default = 10
 }
 
-variable "location" {
-  default = "eu"
-}
-
 variable "max_instance" {
   default = 1
 }
