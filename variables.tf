@@ -66,25 +66,10 @@ variable "source_dir" {
 }
 
 variable "environment_variables" {
-  type = map(object({
-    Key   = string
-    Value = string
-  }))
+  type    = map
   default = {
-    "VAR_NAME_1" = {
-      Key   = "VAR_NAME_1"
-      Value = "value1"
-    }
-    "VAR_NAME_2" = {
-      Key   = "VAR_NAME_2"
-      Value = "value2"
-    }
+    var1 = "value1"
+    var2 = "value2"
   }
 }
 
-variable "transformed_environment_variables" {
-  type    = map(string)
-  default = {
-  for key, obj in var.environment_variables : key => obj.Value
-  }
-}
