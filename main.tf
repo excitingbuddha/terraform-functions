@@ -57,7 +57,7 @@ resource "google_cloudfunctions2_function" "default" {
     min_instance_count    = var.min_instance
     available_memory      = var.available_memory
     timeout_seconds       = var.timeout
-    environment_variables = var.environment_variables
+    environment_variables = var.transformed_environment_variables
     vpc_connector                  = var.vpc_connector
     ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
