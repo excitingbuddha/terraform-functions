@@ -1,5 +1,3 @@
-
-
 terraform {
   required_providers {
     google = {
@@ -59,9 +57,7 @@ resource "google_cloudfunctions2_function" "default" {
     min_instance_count    = var.min_instance
     available_memory      = var.available_memory
     timeout_seconds       = var.timeout
-    environment_variables = {
-      SERVICE_CONFIG_TEST = "config_test"
-    }
+    environment_variables = var.environment_variables
     vpc_connector                  = var.vpc_connector
     ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
