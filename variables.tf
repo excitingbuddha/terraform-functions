@@ -66,11 +66,9 @@ variable "source_dir" {
 }
 
 variable "environment_variables" {
-  type        = map(string)
-  description = "Environment variables for the Cloud Run service"
-  default     = {
-    VARIABLE_NAME_1 = "value1"
-    VARIABLE_NAME_2 = "value2"
-    VARIABLE_NAME_3 = "value3"
-  }
+  type = map(object({
+    Key   = string
+    Value = string
+  }))
+  default = {}
 }
