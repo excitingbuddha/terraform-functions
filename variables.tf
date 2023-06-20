@@ -66,8 +66,9 @@ variable "source_dir" {
 }
 
 variable "environment_variables" {
-  type = "map"
+  type    = "map"
   default = {
     var1 = "value1"
     var2 = "value2"
   }
+}
