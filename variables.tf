@@ -66,7 +66,11 @@ variable "source_dir" {
 }
 
 variable "environment_variables" {
-  type    = string
-  default = ""
+  type    = map(string)
+  default = {
+    BUILD_CONFIG_TEST   = "build_test"
+    BUILD_CONFIG_TEST_2 = "build_test"
+  }
 }
+
 
