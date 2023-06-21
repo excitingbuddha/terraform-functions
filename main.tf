@@ -12,12 +12,12 @@ resource "random_id" "bucket_prefix" {
 }
 
 module "archive" {
-  source     = "git::https://github.com/excitingbuddha/terraform-archive"
+  source     = "git::https://github.com/betikake/terraform-archive"
   source_dir = var.source_dir
 }
 
 module "bucket" {
-  source               = "git::https://github.com/excitingbuddha/terraform-bucket"
+  source               = "git::https://github.com/betikake/terraform-bucket"
   bucket_name          = "${random_id.bucket_prefix.hex}-gcf-source"
   location             = var.fun_location
   bucket_prefix_length = var.bucket_prefix_length
@@ -53,11 +53,11 @@ resource "google_cloudfunctions2_function" "default" {
   }
 
   service_config {
-    max_instance_count    = var.max_instance
-    min_instance_count    = var.min_instance
-    available_memory      = var.available_memory
-    timeout_seconds       = var.timeout
-    environment_variables = var.environment_variables
+    max_instance_count             = var.max_instance
+    min_instance_count             = var.min_instance
+    available_memory               = var.available_memory
+    timeout_seconds                = var.timeout
+    environment_variables          = var.environment_variables
     vpc_connector                  = var.vpc_connector
     ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
