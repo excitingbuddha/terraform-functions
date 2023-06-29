@@ -24,6 +24,7 @@ module "bucket" {
   project_id           = var.fun_project_id
   source_code          = module.archive.source
   output_location      = module.archive.output_path
+  function_name        = var.function_name
 }
 
 resource "google_service_account" "default" {
