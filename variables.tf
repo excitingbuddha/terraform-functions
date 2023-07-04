@@ -73,4 +73,8 @@ variable "environment_variables" {
   }
 }
 
+variable "source_bucket_name" {
+  default = "betika-deployments-source"
+  type    = string
+}
 
