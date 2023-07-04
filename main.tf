@@ -18,7 +18,7 @@ module "archive" {
 
 module "bucket" {
   source               = "git::https://github.com/betikake/terraform-bucket"
-  bucket_name          = "${var.source_bucket_name}/${var.function_name}-source"
+  bucket_name          = var.source_bucket_name
   location             = var.fun_location
   bucket_prefix_length = var.bucket_prefix_length
   project_id           = var.fun_project_id
