@@ -71,3 +71,8 @@ output "function_location" {
   value       = google_cloudfunctions2_function.default.service_config[0].uri
   description = "Url of the cloudfunction"
 }
+
+output "function_name" {
+  value       = google_cloudfunctions2_function.default.name
+  description = "Name of the cloudfunction"
+}
