@@ -68,6 +68,6 @@ resource "google_cloudfunctions2_function" "default" {
 }
 
 output "function_location" {
-  value       = google_cloudfunctions2_function.default.location
+  value       = google_cloudfunctions2_function.default.service_config[0].uri
   description = "Url of the cloudfunction"
 }
