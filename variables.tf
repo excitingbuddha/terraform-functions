@@ -78,3 +78,7 @@ variable "source_bucket_name" {
   type    = string
 }
 
+variable "service_mesh_name" {
+  default = ""
+  type    = string
+}
