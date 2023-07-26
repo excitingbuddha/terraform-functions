@@ -33,6 +33,12 @@ resource "google_service_account" "default" {
   project      = var.fun_project_id
 }
 
+resource "google_project_iam_member" "private_service_invoker" {
+  project = var.fun_project_id
+  role    = "roles/run.invoker"
+  member  = "serviceAccount:${google_service_account.default.email}"
+}
+
 resource "google_cloudfunctions2_function" "default" {
   name        = var.function_name
   location    = var.region
@@ -67,12 +73,24 @@ resource "google_cloudfunctions2_function" "default" {
   }
 }
 
+data "google_iam_policy" "private" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "allUsers",
+    ]
+  }
+}
+
+resource "google_cloud_run_service_iam_policy" "public" {
+  location = google_cloudfunctions2_function.default.location
+  project  = google_cloudfunctions2_function.default.project
+  service  = google_cloudfunctions2_function.default.name
+
+  policy_data = data.google_iam_policy.private.policy_data
+}
+
 output "function_location" {
   value       = google_cloudfunctions2_function.default.service_config[0].uri
   description = "Url of the cloudfunction"
-}
-
-output "function_name" {
-  value       = google_cloudfunctions2_function.default.name
-  description = "Name of the cloudfunction"
 }
