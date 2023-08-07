@@ -34,17 +34,9 @@ resource "google_service_account" "default" {
 }
 
 
-/*
-resource "google_project_iam_member" "bigquery_dataEditor" {
-  project = var.fun_project_id
-  role    = "roles/bigquery.dataEditor"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-*/
-
-//Bigquery permission
-resource "google_project_iam_member" "bigquery_dataEditor" {
-  project = var.fun_project_id
+//permission
+resource "google_project_iam_member" "permissions_am" {
+  project  = var.fun_project_id
   for_each = toset([
     "roles/bigquery.dataEditor",
     "roles/cloudfunctions.invoker",
@@ -56,67 +48,9 @@ resource "google_project_iam_member" "bigquery_dataEditor" {
     "roles/logging.logWriter",
     "roles/pubsub.publisher",
   ])
-  role = each.key
-  member  = "serviceAccount:${google_service_account.default.email}"
+  role   = each.key
+  member = "serviceAccount:${google_service_account.default.email}"
 }
-
-//Cloud Functions Invoker permission
-/*resource "google_project_iam_member" "cloudfunctions_invoker" {
-  project = var.fun_project_id
-  role    = "roles/cloudfunctions.invoker"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}*/
-
-/*
-//Invoker permission
-resource "google_project_iam_member" "private_service_invoker" {
-  project = var.fun_project_id
-  role    = "roles/run.invoker"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-
-//Cloud SQL admin permission
-resource "google_project_iam_member" "cloudsql_admin" {
-  project = var.fun_project_id
-  role    = "roles/cloudsql.admin"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-
-//Cloud SQL permission
-resource "google_project_iam_member" "cloudsql_client" {
-  project = var.fun_project_id
-  role    = "roles/cloudsql.client"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-
-//Cloud SQL editor permission
-resource "google_project_iam_member" "cloudsql_editor" {
-  project = var.fun_project_id
-  role    = "roles/cloudsql.editor"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-
-//Logging admin permission
-resource "google_project_iam_member" "logging_admin" {
-  project = var.fun_project_id
-  role    = "roles/logging.admin"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-
-//Logging writer permission
-resource "google_project_iam_member" "logging_writer" {
-  project = var.fun_project_id
-  role    = "roles/logging.logWriter"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-
-//pub sub publisher permission
-resource "google_project_iam_member" "pubsub_publisher" {
-  project = var.fun_project_id
-  role    = "roles/pubsub.publisher"
-  member  = "serviceAccount:${google_service_account.default.email}"
-}
-*/
 
 resource "google_cloudfunctions2_function" "default" {
   name        = var.function_name
@@ -148,13 +82,13 @@ resource "google_cloudfunctions2_function" "default" {
     //ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
     service_account_email          = google_service_account.default.email
-    //vpc_connector_egress_settings = "ALL_TRAFFIC"
+    vpc_connector_egress_settings  = var.vpc_connector_egress_settings
   }
 }
 
 data "google_iam_policy" "private" {
   binding {
-    role = "roles/run.invoker"
+    role    = "roles/run.invoker"
     members = [
       "allUsers",
     ]

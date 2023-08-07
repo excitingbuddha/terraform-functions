@@ -82,3 +82,7 @@ variable "service_mesh_name" {
   default = ""
   type    = string
 }
+
+variable "vpc_connector_egress_settings" {
+  default = "PRIVATE_RANGES_ONLY"
+}
