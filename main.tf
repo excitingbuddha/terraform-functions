@@ -34,16 +34,19 @@ resource "google_service_account" "default" {
 }
 
 
+/*
 resource "google_project_iam_member" "bigquery_dataEditor" {
   project = var.fun_project_id
   role    = "roles/bigquery.dataEditor"
   member  = "serviceAccount:${google_service_account.default.email}"
 }
+*/
 
 //Bigquery permission
 resource "google_project_iam_member" "bigquery_dataEditor" {
   project = var.fun_project_id
   for_each = toset([
+    "roles/bigquery.dataEditor",
     "roles/cloudfunctions.invoker",
     "roles/run.invoker",
     "roles/cloudsql.admin",
