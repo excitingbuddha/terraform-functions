@@ -33,20 +33,38 @@ resource "google_service_account" "default" {
   project      = var.fun_project_id
 }
 
-//Bigquery permission
+
 resource "google_project_iam_member" "bigquery_dataEditor" {
   project = var.fun_project_id
   role    = "roles/bigquery.dataEditor"
   member  = "serviceAccount:${google_service_account.default.email}"
 }
 
-//Cloud Functions Invoker permission
-resource "google_project_iam_member" "cloudfunctions_invoker" {
+//Bigquery permission
+resource "google_project_iam_member" "bigquery_dataEditor" {
   project = var.fun_project_id
-  role    = "roles/cloudfunctions.invoker"
+  for_each = toset([
+    "roles/cloudfunctions.invoker",
+    "roles/run.invoker",
+    "roles/cloudsql.admin",
+    "roles/cloudsql.client",
+    "roles/cloudsql.editor",
+    "roles/logging.admin",
+    "roles/logging.logWriter",
+    "roles/pubsub.publisher",
+  ])
+  role = each.key
   member  = "serviceAccount:${google_service_account.default.email}"
 }
 
+//Cloud Functions Invoker permission
+/*resource "google_project_iam_member" "cloudfunctions_invoker" {
+  project = var.fun_project_id
+  role    = "roles/cloudfunctions.invoker"
+  member  = "serviceAccount:${google_service_account.default.email}"
+}*/
+
+/*
 //Invoker permission
 resource "google_project_iam_member" "private_service_invoker" {
   project = var.fun_project_id
@@ -95,6 +113,7 @@ resource "google_project_iam_member" "pubsub_publisher" {
   role    = "roles/pubsub.publisher"
   member  = "serviceAccount:${google_service_account.default.email}"
 }
+*/
 
 resource "google_cloudfunctions2_function" "default" {
   name        = var.function_name
