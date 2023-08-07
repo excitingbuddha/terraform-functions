@@ -48,12 +48,6 @@ member  = "serviceAccount:${google_service_account.default.email}"
 
 }
 
-resource "google_project_iam_member" "private_service_invoker" {
-  project = var.fun_project_id
-  role    = "roles/run.invoker"
-  member  = "serviceAccount:${google_service_account.default.email}"
-
-}
 
 resource "google_project_iam_member" "private_service_invoker" {
   project = var.fun_project_id
