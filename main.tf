@@ -33,11 +33,32 @@ resource "google_service_account" "default" {
   project      = var.fun_project_id
 }
 
+
+resource "google_project_iam_member" "private_service_invoker" {
+project = var.fun_project_id
+role    = "roles/cloudsql.client"
+member  = "serviceAccount:${google_service_account.default.email}"
+
+}
+
+resource "google_project_iam_member" "private_service_invoker" {
+project = var.fun_project_id
+role    = "roles/bigquery.dataEditor"
+member  = "serviceAccount:${google_service_account.default.email}"
+
+}
+
 resource "google_project_iam_member" "private_service_invoker" {
   project = var.fun_project_id
   role    = "roles/run.invoker"
-  //member  = "serviceAccount:${google_service_account.default.email}"
-  member  = "serviceAccount:wallet-platform@betika-wallet.iam.gserviceaccount.com"
+  member  = "serviceAccount:${google_service_account.default.email}"
+
+}
+
+resource "google_project_iam_member" "private_service_invoker" {
+  project = var.fun_project_id
+  role    = "roles/run.invoker"
+  member  = "serviceAccount:${google_service_account.default.email}"
 
 }
 
@@ -70,8 +91,7 @@ resource "google_cloudfunctions2_function" "default" {
     vpc_connector                  = var.vpc_connector
     //ingress_settings               = "ALLOW_INTERNAL_ONLY"
     all_traffic_on_latest_revision = true
-    //service_account_email          = google_service_account.default.email
-    service_account_email          = "wallet-platform@betika-wallet.iam.gserviceaccount.com"
+    service_account_email          = google_service_account.default.email
     //vpc_connector_egress_settings = "ALL_TRAFFIC"
   }
 }
