@@ -28,8 +28,8 @@ module "bucket" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = var.service_account.account_id
-  display_name = var.service_account.display_name
+  account_id   = lower(trim(var.service_account.account_id, 28))
+  display_name = lower(trim(var.service_account.display_name, 28))
   project      = var.fun_project_id
 }
 
@@ -53,7 +53,7 @@ resource "google_project_iam_member" "permissions_am" {
 }
 
 resource "google_cloudfunctions2_function" "default" {
-  name        = var.function_name
+  name        = lower(trim(var.function_name, 28))
   location    = var.region
   description = var.description
   project     = var.fun_project_id
@@ -79,7 +79,7 @@ resource "google_cloudfunctions2_function" "default" {
     timeout_seconds                = var.timeout
     environment_variables          = var.environment_variables
     vpc_connector                  = var.vpc_connector
-    //ingress_settings               = "ALLOW_INTERNAL_ONLY"
+    ingress_settings               = var.ingress_settings
     all_traffic_on_latest_revision = true
     service_account_email          = google_service_account.default.email
     vpc_connector_egress_settings  = var.vpc_connector_egress_settings
