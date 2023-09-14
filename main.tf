@@ -28,8 +28,8 @@ module "bucket" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = lower(trim(var.service_account.account_id, 28))
-  display_name = lower(trim(var.service_account.display_name, 28))
+  account_id   = lower(substr(var.service_account.account_id, 28))
+  display_name = lower(substr(var.service_account.display_name, 28))
   project      = var.fun_project_id
 }
 
@@ -53,7 +53,7 @@ resource "google_project_iam_member" "permissions_am" {
 }
 
 resource "google_cloudfunctions2_function" "default" {
-  name        = lower(trim(var.function_name, 28))
+  name        = lower(substr(var.function_name, 28))
   location    = var.region
   description = var.description
   project     = var.fun_project_id
