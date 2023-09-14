@@ -83,6 +83,10 @@ variable "service_mesh_name" {
   type    = string
 }
 
+variable "ingress_settings" {
+  default = "ALLOW_INTERNAL_ONLY"
+}
+
 variable "vpc_connector_egress_settings" {
   default = "PRIVATE_RANGES_ONLY"
 }
