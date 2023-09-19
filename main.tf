@@ -24,12 +24,12 @@ module "bucket" {
   project_id           = var.fun_project_id
   source_code          = module.archive.source
   output_location      = module.archive.output_path
-  function_name        = replace(var.function_name,"/", "")
+  function_name        = replace(var.function_name,"/[0-9A-Za-z_-]*//", "")
 }
 
 resource "google_service_account" "default" {
-  account_id   = replace(lower(var.service_account.account_id),"/", "")
-  display_name = replace(lower(var.service_account.display_name),"/", "")
+  account_id   = replace(lower(var.service_account.account_id),"/[0-9A-Za-z_-]*//", "")
+  display_name = replace(lower(var.service_account.display_name),"/[0-9A-Za-z_-]*//", "")
   project      = var.fun_project_id
 }
 
@@ -53,7 +53,7 @@ resource "google_project_iam_member" "permissions_am" {
 }
 
 resource "google_cloudfunctions2_function" "default" {
-  name        = replace(lower(var.function_name),"/", "")
+  name        = replace(lower(var.function_name),"/[0-9A-Za-z_-]*//", "")
   location    = var.region
   description = var.description
   project     = var.fun_project_id
