@@ -86,7 +86,7 @@ resource "google_cloudfunctions2_function" "default" {
 
   lifecycle {
     replace_triggered_by  = [
-      module.bucket
+      module.bucket.object
     ]
   }
 
