@@ -84,6 +84,10 @@ resource "google_cloudfunctions2_function" "default" {
     service_account_email          = google_service_account.default.email
     vpc_connector_egress_settings  = var.vpc_connector_egress_settings
   }
+
+  labels = {
+    version-crc32c  = lower(replace(module.bucket.crc32c, "/\\W+=/", ""))
+  }
 }
 
 data "google_iam_policy" "private" {
