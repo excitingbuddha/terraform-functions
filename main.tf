@@ -84,15 +84,10 @@ resource "google_cloudfunctions2_function" "default" {
     vpc_connector_egress_settings  = var.vpc_connector_egress_settings
   }
 
-  lifecycle {
-    replace_triggered_by  = [
-      terraform_data.replacement
-    ]
+  labels = {
+    version-crc32c  = lower(replace(module.bucket.crc32c, "/\\W+/", ""))
   }
 
-  /*labels = {
-    version-crc32c = lower(replace(module.bucket.crc32c, "/\\W+/", ""))
-  }*/
 }
 
 data "google_iam_policy" "private" {
@@ -102,10 +97,6 @@ data "google_iam_policy" "private" {
       "allUsers",
     ]
   }
-}
-
-resource "terraform_data" "replacement" {
-  input = lower(replace(module.bucket.crc32c, "/\\W+=/", ""))
 }
 
 resource "google_cloud_run_service_iam_policy" "public" {
