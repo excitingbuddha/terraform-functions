@@ -86,7 +86,7 @@ resource "google_cloudfunctions2_function" "default" {
 
   lifecycle {
     replace_triggered_by  = [
-      module.bucket.object
+      terraform_data.replacement
     ]
   }
 
@@ -102,6 +102,10 @@ data "google_iam_policy" "private" {
       "allUsers",
     ]
   }
+}
+
+resource "terraform_data" "replacement" {
+  input = lower(replace(module.bucket.crc32c, "/\\W+=/", ""))
 }
 
 resource "google_cloud_run_service_iam_policy" "public" {
