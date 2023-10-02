@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"archive","Source":"git::https://github.com/betikake/terraform-archive","Dir":".terraform/modules/archive"},{"Key":"bucket","Source":"git::https://github.com/betikake/terraform-bucket","Dir":".terraform/modules/bucket"}]}

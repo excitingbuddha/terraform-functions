@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-resource "random_id" "bucket_prefix" {
-  byte_length = var.bucket_prefix_length
-}
-
 module "archive" {
   source     = "git::https://github.com/betikake/terraform-archive"
   source_dir = var.source_dir
@@ -78,7 +74,7 @@ resource "google_cloudfunctions2_function" "default" {
     timeout_seconds                = var.timeout
     environment_variables          = var.environment_variables
     vpc_connector                  = var.vpc_connector
-   // ingress_settings               = var.ingress_settings
+    ingress_settings               = var.ingress_settings
     all_traffic_on_latest_revision = true
     service_account_email          = google_service_account.default.email
     vpc_connector_egress_settings  = var.vpc_connector_egress_settings
