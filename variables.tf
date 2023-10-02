@@ -88,5 +88,5 @@ variable "ingress_settings" {
 }
 
 variable "vpc_connector_egress_settings" {
-  default = "PRIVATE_RANGES_ONLY"
+  default = "ALL_TRAFFIC"
 }
