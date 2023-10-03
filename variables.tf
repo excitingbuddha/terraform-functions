@@ -84,7 +84,8 @@ variable "service_mesh_name" {
 }
 
 variable "ingress_settings" {
-  default = "ALLOW_INTERNAL_ONLY"
+  //default = "ALLOW_INTERNAL_ONLY"
+  default = "ALLOW_ALL"
 }
 
 variable "vpc_connector_egress_settings" {
