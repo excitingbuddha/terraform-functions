@@ -103,9 +103,7 @@ resource "google_cloud_run_service_iam_policy" "public" {
   policy_data = data.google_iam_policy.private.policy_data
 }
 
-/*
 output "function_location" {
   value       = google_cloudfunctions2_function.default.service_config[0].uri
   description = "Url of the cloudfunction"
 }
-*/
