@@ -84,6 +84,10 @@ resource "google_cloudfunctions2_function" "default" {
     version-crc32c  = lower(replace(module.bucket.crc32c, "/\\W+/", ""))
   }
 
+  depends_on = [
+    module.bucket
+  ]
+
 }
 
 data "google_iam_policy" "private" {
