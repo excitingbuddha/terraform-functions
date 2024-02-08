@@ -39,6 +39,9 @@ variable "available_memory" {
   type    = string
 }
 
+variable "max_instance_request_concurrency" {
+  default = 1
+}
 variable "entry_point" {
   type = string
 }

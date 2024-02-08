@@ -13,25 +13,25 @@ module "archive" {
 }
 
 module "bucket" {
-  source               = "git::https://github.com/betikake/terraform-bucket"
-  bucket_name          = var.source_bucket_name
-  location             = var.fun_location
-  output_sha           = module.archive.output_sha
-  source_code          = module.archive.source
-  output_location      = module.archive.output_path
-  function_name        = replace(var.function_name,"/[0-9A-Za-z_-]*//", "")
+  source          = "git::https://github.com/betikake/terraform-bucket"
+  bucket_name     = var.source_bucket_name
+  location        = var.fun_location
+  output_sha      = module.archive.output_sha
+  source_code     = module.archive.source
+  output_location = module.archive.output_path
+  function_name   = replace(var.function_name, "/[0-9A-Za-z_-]*//", "")
 }
 
 resource "google_service_account" "default" {
-  account_id   = replace(lower(var.service_account.account_id),"/[0-9A-Za-z_-]*//", "")
-  display_name = replace(lower(var.service_account.display_name),"/[0-9A-Za-z_-]*//", "")
+  account_id   = replace(lower(var.service_account.account_id), "/[0-9A-Za-z_-]*//", "")
+  display_name = replace(lower(var.service_account.display_name), "/[0-9A-Za-z_-]*//", "")
   project      = var.fun_project_id
 }
 
 
 //permission
 resource "google_project_iam_member" "permissions_am" {
-  project  = var.fun_project_id
+  project = var.fun_project_id
   for_each = toset([
     "roles/bigquery.dataEditor",
     "roles/cloudfunctions.invoker",
@@ -48,14 +48,14 @@ resource "google_project_iam_member" "permissions_am" {
 }
 
 resource "google_cloudfunctions2_function" "default" {
-  name        = replace(lower(var.function_name),"/[0-9A-Za-z_-]*//", "")
+  name        = replace(lower(var.function_name), "/[0-9A-Za-z_-]*//", "")
   location    = var.region
   description = var.description
   project     = var.fun_project_id
 
   build_config {
-    runtime               = var.run_time
-    entry_point           = var.entry_point
+    runtime     = var.run_time
+    entry_point = var.entry_point
     environment_variables = {
       BUILD_CONFIG_TEST = "build_test"
     }
@@ -68,20 +68,21 @@ resource "google_cloudfunctions2_function" "default" {
   }
 
   service_config {
-    max_instance_count             = var.max_instance
-    min_instance_count             = var.min_instance
-    available_memory               = var.available_memory
-    timeout_seconds                = var.timeout
-    environment_variables          = var.environment_variables
-    vpc_connector                  = var.vpc_connector
-    ingress_settings               = var.ingress_settings
-    all_traffic_on_latest_revision = true
-    service_account_email          = google_service_account.default.email
-    vpc_connector_egress_settings  = var.vpc_connector_egress_settings
+    max_instance_count               = var.max_instance
+    min_instance_count               = var.min_instance
+    available_memory                 = var.available_memory
+    max_instance_request_concurrency = var.max_instance_request_concurrency
+    timeout_seconds                  = var.timeout
+    environment_variables            = var.environment_variables
+    vpc_connector                    = var.vpc_connector
+    ingress_settings                 = var.ingress_settings
+    all_traffic_on_latest_revision   = true
+    service_account_email            = google_service_account.default.email
+    vpc_connector_egress_settings    = var.vpc_connector_egress_settings
   }
 
   labels = {
-    version-crc32c  = lower(replace(module.bucket.crc32c, "/\\W+/", ""))
+    version-crc32c = lower(replace(module.bucket.crc32c, "/\\W+/", ""))
   }
 
   depends_on = [
@@ -92,7 +93,7 @@ resource "google_cloudfunctions2_function" "default" {
 
 data "google_iam_policy" "private" {
   binding {
-    role    = "roles/run.invoker"
+    role = "roles/run.invoker"
     members = [
       "allUsers",
     ]
