@@ -22,31 +22,6 @@ module "bucket" {
   function_name   = replace(var.function_name, "/[0-9A-Za-z_-]*//", "")
 }
 
-resource "google_service_account" "default" {
-  account_id   = replace(lower(var.service_account.account_id), "/[0-9A-Za-z_-]*//", "")
-  display_name = replace(lower(var.service_account.display_name), "/[0-9A-Za-z_-]*//", "")
-  project      = var.fun_project_id
-}
-
-
-//permission
-resource "google_project_iam_member" "permissions_am" {
-  project = var.fun_project_id
-  for_each = toset([
-    "roles/bigquery.dataEditor",
-    "roles/cloudfunctions.invoker",
-    "roles/run.invoker",
-    "roles/cloudsql.admin",
-    "roles/cloudsql.client",
-    "roles/cloudsql.editor",
-    "roles/logging.admin",
-    "roles/logging.logWriter",
-    "roles/pubsub.publisher",
-  ])
-  role   = each.key
-  member = "serviceAccount:${google_service_account.default.email}"
-}
-
 resource "google_cloudfunctions2_function" "default" {
   name        = replace(lower(var.function_name), "/[0-9A-Za-z_-]*//", "")
   location    = var.region
@@ -54,8 +29,8 @@ resource "google_cloudfunctions2_function" "default" {
   project     = var.fun_project_id
 
   build_config {
-    runtime     = var.run_time
-    entry_point = var.entry_point
+    runtime               = var.run_time
+    entry_point           = var.entry_point
     environment_variables = {
       BUILD_CONFIG_TEST = "build_test"
     }
@@ -77,7 +52,7 @@ resource "google_cloudfunctions2_function" "default" {
     vpc_connector                    = var.vpc_connector
     ingress_settings                 = var.ingress_settings
     all_traffic_on_latest_revision   = true
-    service_account_email            = google_service_account.default.email
+    service_account_email            = var.service_account_email
     vpc_connector_egress_settings    = var.vpc_connector_egress_settings
   }
 
@@ -93,7 +68,7 @@ resource "google_cloudfunctions2_function" "default" {
 
 data "google_iam_policy" "private" {
   binding {
-    role = "roles/run.invoker"
+    role    = "roles/run.invoker"
     members = [
       "allUsers",
     ]
