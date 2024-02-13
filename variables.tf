@@ -30,7 +30,7 @@ variable "min_instance" {
 }
 
 variable "run_time" {
-  default = "go119"
+  default = "go120"
   type    = string
 }
 
