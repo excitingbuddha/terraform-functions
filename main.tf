@@ -83,7 +83,8 @@ resource "google_cloudfunctions2_function" "default" {
 #  policy_data = data.google_iam_policy.private.policy_data
 #}
 #
-#output "function_location" {
-#  value       = google_cloudfunctions2_function.default.service_config[0].uri
-#  description = "Url of the cloudfunction"
-#}
+
+output "function_location" {
+  value       = google_cloudfunctions2_function.default.service_config[0].uri
+  description = "Url of the cloudfunction"
+}
