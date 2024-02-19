@@ -66,24 +66,24 @@ resource "google_cloudfunctions2_function" "default" {
 
 }
 
-data "google_iam_policy" "private" {
-  binding {
-    role    = "roles/run.invoker"
-    members = [
-      "allUsers",
-    ]
-  }
-}
-
-resource "google_cloud_run_service_iam_policy" "public" {
-  location = google_cloudfunctions2_function.default.location
-  project  = google_cloudfunctions2_function.default.project
-  service  = google_cloudfunctions2_function.default.name
-
-  policy_data = data.google_iam_policy.private.policy_data
-}
-
-output "function_location" {
-  value       = google_cloudfunctions2_function.default.service_config[0].uri
-  description = "Url of the cloudfunction"
-}
+#data "google_iam_policy" "private" {
+#  binding {
+#    role    = "roles/run.invoker"
+#    members = [
+#      "allUsers",
+#    ]
+#  }
+#}
+#
+#resource "google_cloud_run_service_iam_policy" "public" {
+#  location = google_cloudfunctions2_function.default.location
+#  project  = google_cloudfunctions2_function.default.project
+#  service  = google_cloudfunctions2_function.default.name
+#
+#  policy_data = data.google_iam_policy.private.policy_data
+#}
+#
+#output "function_location" {
+#  value       = google_cloudfunctions2_function.default.service_config[0].uri
+#  description = "Url of the cloudfunction"
+#}
