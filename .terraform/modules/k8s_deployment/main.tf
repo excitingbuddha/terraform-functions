@@ -1,15 +1,15 @@
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "= 5.3.0"
-    }
-  }
+# terraform {
+#   required_providers {
+#     google = {
+#       source  = "hashicorp/google"
+#       version = "= 5.3.0"
+#     }
+#   }
 
-  backend "gcs" {
-    path = var.backend_state
-  }
-}
+#   backend "gcs" {
+#     path = var.backend_state
+#   }
+# }
 provider "google" {
   project = var.app_config[var.env_toggle].project_id
   region  = var.app_config[var.env_toggle].region
@@ -36,16 +36,16 @@ provider "kubernetes" {
   }
 }*/
 
-resource "kubernetes_config_map" "sportsbook_mts_bet_recon_config" {
-  metadata {
-    name      = var.app_config[var.env_toggle].workspace_config
-    namespace = var.app_config[var.env_toggle].namespace
-  }
+# resource "kubernetes_config_map" "sportsbook_mts_bet_recon_config" {
+#   metadata {
+#     name      = var.app_config[var.env_toggle].workspace_config
+#     namespace = var.app_config[var.env_toggle].namespace
+#   }
 
-  data = {
-    GOOGLE_APPLICATION_CREDENTIALS = "/service-account-key.json"
-  }
-}
+#   data = {
+#     GOOGLE_APPLICATION_CREDENTIALS = "/service-account-key.json"
+#   }
+# }
 
 
 resource "kubernetes_deployment" "my_deployment" {
