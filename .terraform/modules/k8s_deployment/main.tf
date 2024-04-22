@@ -1,15 +1,3 @@
-# terraform {
-#   required_providers {
-#     google = {
-#       source  = "hashicorp/google"
-#       version = "= 5.3.0"
-#     }
-#   }
-
-#   backend "gcs" {
-#     path = var.backend_state
-#   }
-# }
 provider "google" {
   project = var.app_config[var.env_toggle].project_id
   region  = var.app_config[var.env_toggle].region
@@ -36,7 +24,7 @@ provider "kubernetes" {
   }
 }*/
 
-resource "kubernetes_config_map" "sportsbook_mts_bet_recon_config" {
+resource "kubernetes_config_map" "project_config_map" {
   metadata {
     name      = var.app_config[var.env_toggle].workspace_config
     namespace = var.app_config[var.env_toggle].namespace
@@ -80,7 +68,7 @@ resource "kubernetes_deployment" "my_deployment" {
 
           env_from {
             config_map_ref {
-              name = kubernetes_config_map.sportsbook_mts_bet_recon_config.metadata[0].name
+              name = kubernetes_config_map.project_config_map.metadata[0].name
             }
           }
         }
