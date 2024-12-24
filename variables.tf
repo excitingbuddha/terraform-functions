@@ -92,3 +92,8 @@ variable "ingress_settings" {
 variable "vpc_connector_egress_settings" {
   default = "ALL_TRAFFIC"
 }
+
+variable "available_cpu" {
+  default = "1"
+  type    = string
+}

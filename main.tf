@@ -46,6 +46,7 @@ resource "google_cloudfunctions2_function" "default" {
     max_instance_count               = var.max_instance
     min_instance_count               = var.min_instance
     available_memory                 = var.available_memory
+    available_cpu                    = var.available_cpu
     max_instance_request_concurrency = var.max_instance_request_concurrency
     timeout_seconds                  = var.timeout
     environment_variables            = var.environment_variables
@@ -54,6 +55,7 @@ resource "google_cloudfunctions2_function" "default" {
     all_traffic_on_latest_revision   = true
     service_account_email            = var.service_account_email
     vpc_connector_egress_settings    = var.vpc_connector_egress_settings
+    
   }
 
   labels = {
